@@ -1,8 +1,13 @@
 <p>heroes works!</p>
-<label for="w3mission">W3Schools mission:</label>
+<label for="w3mission">Logic:</label>
 
-<textarea id="w3mission" rows="4" cols="50" [(ngModel)]="myInput">
+<textarea id="w3mission" rows="4" cols="50" [(ngModel)]="myLogic">
 At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
 </textarea>
-<button (click)="open($event)">cool</button>
+<label for="w3mission">Data:</label>
+
+<textarea id="w3mission" rows="4" cols="50" [(ngModel)]="myData">
+At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
+</textarea>
+<button (click)="open($event)">Execute</button>
 <p>{{result}}</p>

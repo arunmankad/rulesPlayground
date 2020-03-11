@@ -8,7 +8,8 @@ import MyRules from '../../lib/USTRules';
 })
 export class HeroesComponent implements OnInit {
 
-  myInput = "";
+  myLogic = "";
+  myData = "";
   result = "";
   constructor() {
     
@@ -28,8 +29,22 @@ export class HeroesComponent implements OnInit {
 
   public open(event) {
     // alert('Open '+ this.myInput);
-    let jsonConvertedInput = JSON.parse(this.myInput);
-    this.result = MyRules.apply(jsonConvertedInput);
+    let jsonConvertedData;
+    let jsonConvertedLogic;
+    alert(!!this.myLogic);
+    if(!!this.myLogic){
+      jsonConvertedLogic = JSON.parse(this.myLogic);
+    }else{
+      jsonConvertedLogic = [];
+    }
+    if(!!this.myData){
+      jsonConvertedData = JSON.parse(this.myData) ;
+    }else {
+      jsonConvertedData = {}
+    }
+    console.log('jsonConvertedLogic', jsonConvertedLogic);
+    console.log('jsonConvertedData', jsonConvertedData);
+    this.result = MyRules.apply(jsonConvertedLogic, jsonConvertedData);
   }
 
 }

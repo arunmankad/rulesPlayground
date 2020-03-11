@@ -273,11 +273,11 @@
         return UstRules.apply(val, data);
       });
       if(typeof operations[op] === "function") {
-        console.log('TESTER');
-        console.log('data', data);
-        console.log('values', values);
-        console.log('operations[op]', operations[op]);
-        console.log('operations[op].apply', operations[op].apply(data, values));
+        // console.log('TESTER');
+        // console.log('data', data);
+        // console.log('values', values);
+        // console.log('operations[op]', operations[op]);
+        // console.log('operations[op].apply', operations[op].apply(data, values));
         return operations[op].apply(data, values);
         
       }else if(op.indexOf(".") > 0) { 
