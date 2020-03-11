@@ -1,13 +1,31 @@
-<p>heroes works!</p>
-<label for="w3mission">Logic:</label>
+<!-- <p>heroes works!</p> -->
+<div class="section">
+    <div class="container">
+        <div class="field">
+            <label class="label" >Logic:</label>
+            <div class="control">
+                <textarea class="textarea" placeholder="Add the logic here!" [(ngModel)]="myLogic">
+                    At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
+                    </textarea>
+            </div>
+          </div>
+        
+        <div class="field">
+            <label class="label">Data:</label>
+            <textarea class="textarea" placeholder="Add your data here!" [(ngModel)]="myData">
+    
+            </textarea>
+        </div>
+        <button class="button is-link" (click)="open($event)">Execute</button>
+        
+    </div>
+</div>
 
-<textarea id="w3mission" rows="4" cols="50" [(ngModel)]="myLogic">
-At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
-</textarea>
-<label for="w3mission">Data:</label>
-
-<textarea id="w3mission" rows="4" cols="50" [(ngModel)]="myData">
-At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
-</textarea>
-<button (click)="open($event)">Execute</button>
-<p>{{result}}</p>
+<div class="section">
+    <div class="notification" [ngClass]="{
+        'is-primary': result,
+        'is-danger': !result
+    }" >
+        <p>{{result}}</p>
+    </div>    
+</div>

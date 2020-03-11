@@ -10,7 +10,7 @@ export class HeroesComponent implements OnInit {
 
   myLogic = "";
   myData = "";
-  result = "";
+  result:Boolean ;
   constructor() {
     
    }

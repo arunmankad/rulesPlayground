@@ -106,22 +106,34 @@
         }, []);
       },
       "var": function(a, b) {
-        var not_found = (b === undefined) ? null : b;
-        var data = this;
+        // sample 1 => operations['var'].apply({{a: 1, b: 2}, ["a"]}) 
+        // sample 2 => operations["var"].apply({a:1, b:2}, ["z", 26]);
+        // -------------------------------------------------------------
+
+        /* In sample1  scenario undefined
+          In sample2 secenario not_found = b 
+        */
+        var not_found = (b === undefined) ? null : b; 
+        var data = this; // {a: 1, b: 2}
         if(typeof a === "undefined" || a==="" || a===null) {
           return data;
         }
-        var sub_props = String(a).split(".");
+        var sub_props = String(a).split("."); // convert array to string and then split into array based on .
         for(var i = 0; i < sub_props.length; i++) {
-          if(data === null) {
+          /*
+          data not null in the both scenario, 
+          if data is null, either null or value of b 
+          as the case may be will be returned 
+          */
+          if(data === null) { 
             return not_found;
           }
-          data = data[sub_props[i]];
-          if(data === undefined) {
+          data = data[sub_props[i]]; // sub_props[i] = a, data[a] =1  
+          if(data === undefined) { // data is not undefined 
             return not_found;
           }
         }
-        return data;
+        return data; // returned value is 1 as per the scenario listed above
       },
       "missing": function() {
         var missing = [];
@@ -273,11 +285,11 @@
         return UstRules.apply(val, data);
       });
       if(typeof operations[op] === "function") {
-        // console.log('TESTER');
-        // console.log('data', data);
-        // console.log('values', values);
-        // console.log('operations[op]', operations[op]);
-        // console.log('operations[op].apply', operations[op].apply(data, values));
+        console.log('TESTER');
+        console.log('data', data);
+        console.log('values', values);
+        console.log('operations[op]', operations[op]);
+        console.log('operations[op].apply', operations[op].apply(data, values));
         return operations[op].apply(data, values);
         
       }else if(op.indexOf(".") > 0) { 
