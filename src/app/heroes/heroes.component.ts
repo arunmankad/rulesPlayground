@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {RulesService} from '../services/rules.service';
+
 import MyRules from '../../lib/USTRules';
 
 @Component({
@@ -11,7 +13,7 @@ export class HeroesComponent implements OnInit {
   myLogic = "";
   myData = "";
   result:Boolean ;
-  constructor() {
+  constructor(private rulesSevice: RulesService) {
     
    }
   
@@ -31,7 +33,7 @@ export class HeroesComponent implements OnInit {
     // alert('Open '+ this.myInput);
     let jsonConvertedData;
     let jsonConvertedLogic;
-    alert(!!this.myLogic);
+    alert(this.rulesSevice.check());
     if(!!this.myLogic){
       jsonConvertedLogic = JSON.parse(this.myLogic);
     }else{

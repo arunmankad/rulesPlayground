@@ -190,7 +190,13 @@
         return obj[method].apply(obj, args);
       },
     };
-  
+    /**
+     * helps checks if the logic satisfies predefined criteria
+     *  typeof is object 
+     *  not null
+     *  not an array
+     *  logic object should only have one key, 
+     */
     UstRules.is_logic = function(logic) {
       return (
         typeof logic === "object" && 
@@ -199,39 +205,91 @@
         Object.keys(logic).length === 1 
       );
     };
+    /**
+     * if the value passed in is an array and length is zero false will be returned 
+     *  undefined
+        null
+        NaN
+        0
+        "" <empty string>
+        false
+        Anything expect the above values will return true
+     */
     UstRules.truthy = function(value) {
       if(Array.isArray(value) && value.length === 0) {
         return false;
       }
       return !! value;
     };
+    /**
+     * Helps gets the key aka op from the logic 
+     */
     UstRules.get_operator = function(logic) {
       return Object.keys(logic)[0];
     };
-  
+    /**
+     * Helps gets the valau from the logic 
+     */
     UstRules.get_values = function(logic) {
       return logic[UstRules.get_operator(logic)];
     };
-  
+    // this is the starting point of entire execution
     UstRules.apply = function(logic, data) {
+      // console.log('LOGIC is an array =>', Array.isArray(logic))
+      /* 
+        if logic is an array each of the items in the array
+        is supplied to apply along with data 
+      */
       if(Array.isArray(logic)) {
         return logic.map(function(l) {
           return UstRules.apply(l, data);
         });
       }
+      /*
+        This if condition is to check if the logic meets all the 4 pre-defined
+        criteria, namely 
+        typeof is object 
+        not null
+        not an array
+        logic object should only have one key,
+
+        If the logic fails to comply with an of these criteria, logic would be
+        returned as result           
+      */
       if( ! UstRules.is_logic(logic) ) {
         return logic;
       }
+      /*
+        if data is null, an empty object is assigned as its value
+      */
       data = data || {};
       debugger;
+      /*
+        If logic statisfies all the 4 criteria, this step will extract the
+        key from logic and will be stored in the variable op
+      */
       var op = UstRules.get_operator(logic);
+      /* 
+        The value part of the logic is stored in the varibale values 
+      */
       var values = logic[op];
+      /*
+        Next three statements declares few variables to be used later in the
+        method
+        i => looping through value arrays
+        cuurent 
+      */
       var i;
       var current;
       var scopedLogic, scopedData, filtered, initial;
+      /*
+        This if condition is for syntatic sugar
+        {"var":"a"} will be treated like {"var":["a"]} 
+       */
       if( ! Array.isArray(values)) {
         values = [values];
       }
+      // when op is if or ?:
       if(op === "if" || op == "?:") {
         for(i = 0; i < values.length - 1; i += 2) {
           if( UstRules.truthy( UstRules.apply(values[i], data) ) ) {
@@ -240,15 +298,29 @@
         }
         if(values.length === i+1) return UstRules.apply(values[i], data);
         return null;
-      }else if(op === "and") { 
+       
+      }
+      /* 
+        when op is 'and' if any one of the logic inside values 
+        return false then the value false will be returned, 
+        else last value of current (would be true) will be returned
+      */
+      else if(op === "and") { 
         for(i=0; i < values.length; i+=1) {
           current = UstRules.apply(values[i], data);
           if( ! UstRules.truthy(current)) {
+            
             return current;
           }
         }
         return current; 
-      }else if(op === "or") {
+      }
+      /* 
+        when op is 'or' if any one of the logic inside values 
+        return true then the value true will be returned, 
+        else last value of current will be returned
+      */
+      else if(op === "or") {
         for(i=0; i < values.length; i+=1) {
           current = UstRules.apply(values[i], data);
           if( UstRules.truthy(current) ) {
@@ -316,11 +388,11 @@
         return UstRules.apply(val, data);
       });
       if(typeof operations[op] === "function") {
-        console.log('TESTER');
-        console.log('data', data);
-        console.log('values', values);
-        console.log('operations[op]', operations[op]);
-        console.log('operations[op].apply', operations[op].apply(data, values));
+        // console.log('TESTER');
+        // console.log('data', data);
+        // console.log('values', values);
+        // console.log('operations[op]', operations[op]);
+        // console.log('operations[op].apply', operations[op].apply(data, values));
         return operations[op].apply(data, values);
         
       }else if(op.indexOf(".") > 0) { 
