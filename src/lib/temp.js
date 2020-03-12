@@ -1,3 +1,7 @@
+/*
+The below snippet is meant to tear down the "var" function in rules!
+*/
+
 const cool = {
     "var": function(a, b) {
         console.log("a,", a);
@@ -25,4 +29,25 @@ const cool = {
     return data;
   }
 };
-cool["var"].apply({a: 1, b: 2}, ["a"]);
+// use-case 1 **************
+// cool["var"].apply({a: 1, b: 2}, ["a"]);
+// use-case 2 **************
+// cool["var"].apply({
+//   champ: {
+//     name: 'Fezzig',
+//     height: 223
+//   },
+//   challenger: {
+//     name: 'Dread Pirate Roberts',
+//     height: 183
+//   }
+// }, ["champ.name"]);
+
+
+
+// use-case 3 **************
+
+cool["var"].apply(["Hello", "How", "are U"], [1]);
+
+//  "var" function ended!
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

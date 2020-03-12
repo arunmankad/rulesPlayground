@@ -108,32 +108,63 @@
       "var": function(a, b) {
         // sample 1 => operations['var'].apply({{a: 1, b: 2}, ["a"]}) 
         // sample 2 => operations["var"].apply({a:1, b:2}, ["z", 26]);
+        /* Sample 3 => operations["var"].apply({
+                                                  champ: {
+                                                    name: 'Fezzig',
+                                                    height: 223
+                                                  },
+                                                  challenger: {
+                                                    name: 'Dread Pirate Roberts',
+                                                    height: 183
+                                                  }
+                                                }, ["champ.name"]));
+        */
         // -------------------------------------------------------------
 
-        /* In sample1  scenario undefined
-          In sample2 secenario not_found = b 
+        /*  In sample1  scenario undefined
+            In sample2 secenario not_found = b 
+            In sample3 not_found = undefined 
         */
         var not_found = (b === undefined) ? null : b; 
-        var data = this; // {a: 1, b: 2}
+        // context object set in apply method is the data object
+        var data = this; // {a: 1, b: 2} etc
+        // if logic is undefined, empty or null data will be returned as such
         if(typeof a === "undefined" || a==="" || a===null) {
           return data;
         }
+        /*
+          The first parameter is converted to string, split in to array based on .
+          Comes handy when trying to accessing a nested value from an object.
+          Sample 3 is an ideal use case
+        */
         var sub_props = String(a).split("."); // convert array to string and then split into array based on .
         for(var i = 0; i < sub_props.length; i++) {
           /*
-          data not null in the both scenario, 
+          data not null all scenarios mentioned above, 
           if data is null, either null or value of b 
           as the case may be will be returned 
           */
           if(data === null) { 
             return not_found;
           }
+          /*
+          The statement below holds good specifically in sample 3
+          where sub_props will be an array, with value in each index 
+          pointing to a nested object 
+          In case of sample 3 sub_props = ["champ", "name"]
+          Remember in JS sub_props[0] and sub_props["0"] returns the same value
+           */
           data = data[sub_props[i]]; // sub_props[i] = a, data[a] =1  
-          if(data === undefined) { // data is not undefined 
+          /*
+            If at any level data is not found, not_found is returned, value of
+            which is either b or null depending on one of the previous statements
+          */
+          if(data === undefined) { 
             return not_found;
           }
         }
-        return data; // returned value is 1 as per the scenario listed above
+        // returned value is 1 as per the sample 1 scenario listed above
+        return data; 
       },
       "missing": function() {
         var missing = [];
