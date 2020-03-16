@@ -169,13 +169,18 @@
       "missing": function() {
         var missing = [];
         var keys = Array.isArray(arguments[0]) ? arguments[0] : arguments;
+        console.log("JS keys =>", keys);
         for(var i = 0; i < keys.length; i++) {
           var key = keys[i];
+          console.log("JS key =>", key);
           var value = UstRules.apply({"var": key}, this);
+          console.log("JS this in missing =>", this);
+          console.log("JS value =>", value);
           if(value === null || value === "") {
             missing.push(key);
           }
         }
+        console.log("FROM JS", missing)
         return missing;
       },
       "missing_some": function(need_count, options) {
@@ -240,6 +245,8 @@
         if logic is an array each of the items in the array
         is supplied to apply along with data 
       */
+     console.log('LOGIC =>', logic)
+     console.log('DATA =>', data)
       if(Array.isArray(logic)) {
         return logic.map(function(l) {
           return UstRules.apply(l, data);
@@ -263,7 +270,7 @@
         if data is null, an empty object is assigned as its value
       */
       data = data || {};
-      debugger;
+      // debugger;
       /*
         If logic statisfies all the 4 criteria, this step will extract the
         key from logic and will be stored in the variable op

@@ -4,7 +4,7 @@
         <div class="field">
             <label class="label" >Logic:</label>
             <div class="control">
-                <textarea class="textarea" placeholder="Add the logic here!" [(ngModel)]="myLogic">
+                <textarea class="textarea" name="logicTextArea" placeholder="Add the logic here!" [(ngModel)]="myLogic">
                     At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies.
                     </textarea>
             </div>
@@ -12,7 +12,7 @@
         
         <div class="field">
             <label class="label">Data:</label>
-            <textarea class="textarea" placeholder="Add your data here!" [(ngModel)]="myData">
+            <textarea class="textarea" name="dataTextArea" placeholder="Add your data here!" [(ngModel)]="myData">
     
             </textarea>
         </div>
@@ -26,6 +26,14 @@
         'is-primary': result,
         'is-danger': !result
     }" >
-        <p>{{result | json}}</p>
+        <p name="resultServ">{{result | json}}</p>
+    </div>    
+</div>
+<div class="section">
+    <div class="notification" [ngClass]="{
+        'is-primary': result,
+        'is-danger': !result
+    }" >
+        <p>{{resultFromService | json}}</p>
     </div>    
 </div>

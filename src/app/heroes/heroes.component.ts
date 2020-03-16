@@ -12,7 +12,8 @@ export class HeroesComponent implements OnInit {
 
   myLogic = "";
   myData = "";
-  result:Boolean ;
+  result:any;
+  resultFromService:any;
   constructor(private rulesSevice: RulesService) {
     
    }
@@ -30,10 +31,12 @@ export class HeroesComponent implements OnInit {
   }
 
   public open(event) {
-    // alert('Open '+ this.myInput);
+    //  alert('Open ');
     let jsonConvertedData;
     let jsonConvertedLogic;
-    alert(this.rulesSevice.check());
+    // alert(this.rulesSevice.check());
+    // const a = this.rulesSevice.check([[1],[2]], {})
+    // console.log('aaaaa =>', a);
     if(!!this.myLogic){
       jsonConvertedLogic = JSON.parse(this.myLogic);
     }else{
@@ -46,7 +49,8 @@ export class HeroesComponent implements OnInit {
     }
     console.log('jsonConvertedLogic', jsonConvertedLogic);
     console.log('jsonConvertedData', jsonConvertedData);
-    this.result = MyRules.apply(jsonConvertedLogic, jsonConvertedData);
+     this.result = MyRules.apply(jsonConvertedLogic, jsonConvertedData);
+    this.resultFromService = this.rulesSevice.check(jsonConvertedLogic, jsonConvertedData);
   }
 
 }
